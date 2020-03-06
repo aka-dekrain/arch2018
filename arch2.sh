@@ -50,38 +50,39 @@ read -p "1 - Yes, 0 - No: " vm_setting
 if [[ $vm_setting == 0 ]]; then
  pacman -S xorg-server xorg-drivers xorg-xinit
 elif [[ $vm_setting == 1 ]]; then
-  pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils
-  echo 13;
+  (
+   echo 13;
+  ) | pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils
 fi
 
 echo 'Create a bootable RAM disk'
 mkinitcpio -p linux
 
 echo "Install KDE"
-pacman -Sy plasma-meta kdebase --noconfirm
+#pacman -Sy plasma-meta kdebase --noconfirm
 
 echo 'Install SLiM'
-pacman -S slim --noconfirm
-systemctl enable slim.service
+#pacman -S slim --noconfirm
+#systemctl enable slim.service
 
 echo 'Install font'
-pacman -S ttf-liberation ttf-dejavu --noconfirm 
+#pacman -S ttf-liberation ttf-dejavu --noconfirm 
 
 echo 'Install network'
-pacman -S networkmanager network-manager-applet ppp --noconfirm
+#pacman -S networkmanager network-manager-applet ppp --noconfirm
 
 echo 'We connect autoload of the login manager and the Internet'
-systemctl enable NetworkManager
+#systemctl enable NetworkManager
 
 echo 'Installation AUR (yay)'
-sudo pacman -Syu
+#sudo pacman -Syu
 
-mkdir ~/downloads
-cd ~/downloads
+#mkdir ~/downloads
+#cd ~/downloads
 
-wget git.io/yay-install.sh && sh yay-install.sh --noconfirm
+#wget git.io/yay-install.sh && sh yay-install.sh --noconfirm
 
-rm -rf ~/downloads
+#rm -rf ~/downloads
 
 echo 'Installation completed! Reboot the system.'
 exit
