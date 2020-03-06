@@ -64,7 +64,7 @@ mount /dev/sda4 /mnt/home
 
 echo 'The choice of mirrors to download.'
 pacman -Sy --noconfirm --noprogressbar --quiet reflector
-reflector --verbose --country Kazakhstan --country Russia -p https --sort rate --save /etc/pacman.d/mirrorlist
+reflector --verbose --country Kazakhstan --country Russia --sort rate --save /etc/pacman.d/mirrorlist
 
 echo 'Installing major packages'
 pacstrap /mnt linux base nano dhcpcd netctl sudo wget --noconfirm --noprogressbar --quiet
