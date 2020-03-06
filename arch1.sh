@@ -67,7 +67,7 @@ pacman -Sy --noconfirm reflector
 reflector --verbose --country Kazakhstan --country Russia -p https --sort rate --save /etc/pacman.d/mirrorlist
 
 echo 'Installing major packages'
-pacstrap /mnt base base-devel nano dhcpcd netctl sudo wget
+pacstrap /mnt linux base nano dhcpcd netctl sudo wget
 
 echo 'System Setup'
 genfstab -pU /mnt >> /mnt/etc/fstab
