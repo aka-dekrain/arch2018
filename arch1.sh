@@ -63,13 +63,13 @@ swapon /dev/sda3
 mount /dev/sda4 /mnt/home
 
 echo 'The choice of mirrors to download.'
-pacman -S --noconfirm reflector
-reflector -l 3 --sort rate --save /etc/pacman.d/mirrorlist
+pacman -Sy --noconfirm reflector
+reflector --verbose --country Kazakhstan --country Russia -p https --sort rate --save /etc/pacman.d/mirrorlist
 
 echo 'Installing major packages'
-#pacstrap /mnt base base-devel nano dhcpcd netctl sudo wget
+pacstrap /mnt base base-devel nano dhcpcd netctl sudo wget
 
 echo 'System Setup'
-#genfstab -pU /mnt >> /mnt/etc/fstab
+genfstab -pU /mnt >> /mnt/etc/fstab
 
-#arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/aka-dekrain/arch2018/master/arch2.sh)"
+arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/aka-dekrain/arch2018/master/arch2.sh)"
