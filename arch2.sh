@@ -25,8 +25,6 @@ locale-gen
 
 echo 'Specify the system language'
 echo 'LANG="ru_RU.UTF-8"' > /etc/locale.conf
-
-echo 'Вписываем KEYMAP=ru FONT=cyr-sun16'
 echo 'KEYMAP=ru' >> /etc/vconsole.conf
 echo 'FONT=cyr-sun16' >> /etc/vconsole.conf
 
