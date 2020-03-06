@@ -1,88 +1,87 @@
 #!/bin/bash
-read -p "Введите имя компьютера: " hostname
-read -p "Введите имя пользователя: " username
 
-echo 'Прописываем имя компьютера'
+echo 'Set root password'
+passwd
+
+echo 'We register the computer name and username'
+
+read -p "Enter computer name: " hostname
+read -p "Enter username: " username
+
+useradd -m -g users -G wheel -s /bin/bash $username
+
+echo 'Set user password'
+passwd $username
+
 echo $hostname > /etc/hostname
 ln -svf /usr/share/zoneinfo/Asia/Almaty /etc/localtime
 
-echo '3.4 Добавляем русскую локаль системы'
+echo 'Add Russian system locale'
 echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 echo "ru_RU.UTF-8 UTF-8" >> /etc/locale.gen 
 
-echo 'Обновим текущую локаль системы'
+echo 'Update the current system locale'
 locale-gen
 
-echo 'Указываем язык системы'
+echo 'Specify the system language'
 echo 'LANG="ru_RU.UTF-8"' > /etc/locale.conf
 
 echo 'Вписываем KEYMAP=ru FONT=cyr-sun16'
 echo 'KEYMAP=ru' >> /etc/vconsole.conf
 echo 'FONT=cyr-sun16' >> /etc/vconsole.conf
 
-echo 'Создадим загрузочный RAM диск'
-mkinitcpio -p linux
-
-echo '3.5 Устанавливаем загрузчик'
-pacman -Syy
-pacman -S grub --noconfirm 
-grub-install /dev/sda
-
-echo 'Обновляем grub.cfg'
-grub-mkconfig -o /boot/grub/grub.cfg
-
-echo 'Добавляем пользователя'
-useradd -m -g users -G wheel -s /bin/bash $username
-
-echo 'Создаем root пароль'
-passwd
-
-echo 'Устанавливаем пароль пользователя'
-passwd $username
-
-echo 'Устанавливаем SUDO'
-echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
-
-echo 'Раскомментируем репозиторий multilib Для работы 32-битных приложений в 64-битной системе.'
+echo 'Uncomment the multilib repository. For 32-bit applications to work on a 64-bit system.'
 echo '[multilib]' >> /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 pacman -Syy
 
-echo "Куда устанавливем Arch Linux на виртуальную машину?"
-read -p "1 - Да, 0 - Нет: " vm_setting
+echo 'Create a bootable RAM disk'
+mkinitcpio -p linux
+
+echo 'Install the bootloader'
+pacman -S grub --noconfirm 
+grub-install /dev/sda
+
+echo 'Update grub.cfg'
+grub-mkconfig -o /boot/grub/grub.cfg
+
+echo 'Install SUDO'
+echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
+
+echo "Where do we install Arch Linux on a virtual machine?"
+read -p "1 - Yes, 0 - No: " vm_setting
 if [[ $vm_setting == 0 ]]; then
   gui_install="xorg-server xorg-drivers xorg-xinit"
 elif [[ $vm_setting == 1 ]]; then
   gui_install="xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils"
 fi
 
-echo 'Ставим иксы и драйвера'
+echo 'Install X and drivers'
 pacman -S $gui_install
 
-echo "Какое DE ставим?"
-read -p "1 - XFCE, 2 - KDE, 3 - Openbox: " vm_setting
-if [[ $vm_setting == 1 ]]; then
-  pacman -S xfce4 xfce4-goodies --noconfirm
-elif [[ $vm_setting == 2 ]]; then
-  pacman -Sy plasma-meta kdebase --noconfirm
-elif [[ $vm_setting == 3 ]]; then  
-  pacman -S  openbox xfce4-terminal
-fi
+echo "Install KDE"
+pacman -Sy plasma-meta kdebase --noconfirm
 
-echo 'Cтавим SLiM'
+echo 'Install SLiM'
 pacman -S slim --noconfirm
 systemctl enable slim.service
 
-echo 'Ставим шрифты'
+echo 'Install font'
 pacman -S ttf-liberation ttf-dejavu --noconfirm 
 
-echo 'Ставим сеть'
+echo 'Install network'
 pacman -S networkmanager network-manager-applet ppp --noconfirm
 
-echo 'Подключаем автозагрузку менеджера входа и интернет'
+echo 'We connect autoload of the login manager and the Internet'
 systemctl enable NetworkManager
 
-echo 'Установка завершена! Перезагрузите систему.'
-echo 'Если хотите подключить AUR, установить мои конфиги XFCE, тогда после перезагрузки и входа в систему, установите wget (sudo pacman -S wget) и выполните команду:'
-echo 'wget https://raw.githubusercontent.com/aka-dekrain/arch2018/master/arch3.sh && sh https://raw.githubusercontent.com/aka-dekrain/arch2018/master/arch3.sh'
+echo 'Installation AUR (yay)'
+sudo pacman -Syu
+
+mkdir ~/downloads
+cd ~/downloads
+
+wget git.io/yay-install.sh && sh yay-install.sh --noconfirm
+
+echo 'Installation completed! Reboot the system.'
 exit
