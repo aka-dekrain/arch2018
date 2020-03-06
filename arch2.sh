@@ -25,7 +25,7 @@ locale-gen
 
 echo 'Specify the system language'
 echo 'LANG="ru_RU.UTF-8"' > /etc/locale.conf
-echo 'KEYMAP=ru' >> /etc/vconsole.conf
+echo 'KEYMAP=ru' > /etc/vconsole.conf
 echo 'FONT=cyr-sun16' >> /etc/vconsole.conf
 
 echo 'Uncomment the multilib repository. For 32-bit applications to work on a 64-bit system.'
@@ -33,8 +33,7 @@ echo '[multilib]' >> /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 pacman -Syy
 
-echo 'Create a bootable RAM disk'
-mkinitcpio -p linux
+
 
 echo 'Install the bootloader'
 pacman -S grub --noconfirm 
@@ -49,13 +48,14 @@ echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
 echo "Where do we install Arch Linux on a virtual machine?"
 read -p "1 - Yes, 0 - No: " vm_setting
 if [[ $vm_setting == 0 ]]; then
-  gui_install="xorg-server xorg-drivers xorg-xinit"
+ pacman -S xorg-server xorg-drivers xorg-xinit
 elif [[ $vm_setting == 1 ]]; then
-  gui_install="xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils"
+  pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils
+  echo 13;
 fi
 
-echo 'Install X and drivers'
-pacman -S $gui_install
+echo 'Create a bootable RAM disk'
+mkinitcpio -p linux
 
 echo "Install KDE"
 pacman -Sy plasma-meta kdebase --noconfirm
