@@ -10,12 +10,12 @@
 # Данил Антошкин https://vk.com/danil.antoshkin
 # Юрий Порунцов https://vk.com/poruncov
 
-echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 echo "ru_RU.UTF-8 UTF-8" >> /etc/locale.gen 
 
 locale-gen
 
-echo 'LANG="ru_RU.UTF-8"' > /etc/locale.conf
+echo 'LANG=ru_RU.UTF-8' > /etc/locale.conf
 
 echo 'Вписываем KEYMAP=ru FONT=cyr-sun16'
 echo 'KEYMAP=ru' >> /etc/vconsole.conf
