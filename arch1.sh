@@ -1,33 +1,12 @@
 #!/bin/bash
 
-# Arch Linux Fast Install - Быстрая установка Arch Linux https://github.com/ordanax/arch2018
-# Цель скрипта - быстрое развертывание системы с вашими персональными настройками (конфиг XFCE, темы, программы и т.д.).
+loadkeys ru	
+setfont cyr-sun16
 
-# В разработке принимали участие:
-# Алексей Бойко https://vk.com/ordanax
-# Степан Скрябин https://vk.com/zurg3
-# Михаил Сарвилин https://vk.com/michael170707
-# Данил Антошкин https://vk.com/danil.antoshkin
-# Юрий Порунцов https://vk.com/poruncov
-
-echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
-echo "ru_RU.UTF-8 UTF-8" >> /etc/locale.gen 
-
-locale-gen
-
-echo 'LANG=ru_RU.UTF-8' > /etc/locale.conf
-
-echo 'Вписываем KEYMAP=ru FONT=cyr-sun16'
-echo 'KEYMAP=ru' >> /etc/vconsole.conf
-echo 'FONT=cyr-sun16' >> /etc/vconsole.conf
-
-echo 'Скрипт сделан на основе чеклиста Бойко Алексея по Установке ArchLinux'
-echo 'Ссылка на чек лист есть в группе vk.com/arch4u'
-
-echo '2.3 Синхронизация системных часов'
+echo 'System Clock Sync'
 timedatectl set-ntp true
 
-echo '2.4 создание разделов'
+echo 'Create partitions'
 (
   echo o;
 
@@ -47,7 +26,7 @@ echo '2.4 создание разделов'
   echo;
   echo;
   echo;
-  echo +1024M;
+  echo +1G;
 
   echo n;
   echo p;
@@ -59,29 +38,26 @@ echo '2.4 создание разделов'
   echo w;
 ) | fdisk /dev/sda
 
-echo 'Ваша разметка диска'
-fdisk -l
-
-echo '2.4.2 Форматирование дисков'
+echo 'Disk formatting'
 mkfs.ext2  /dev/sda1 -L boot
 mkfs.ext4  /dev/sda2 -L root
 mkswap /dev/sda3 -L swap
 mkfs.ext4  /dev/sda4 -L home
 
-echo '2.4.3 Монтирование дисков'
+echo 'Mount drives'
 mount /dev/sda2 /mnt
 mkdir /mnt/{boot,home}
 mount /dev/sda1 /mnt/boot
 swapon /dev/sda3
 mount /dev/sda4 /mnt/home
 
-echo '3.1 Выбор зеркал для загрузки.'
+echo 'The choice of mirrors to download.'
 echo "Server = http://mirror.ps.kz/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
 
-echo '3.2 Установка основных пакетов'
-pacstrap /mnt base base-devel nano dhcpcd netctl
+echo 'Installing major packages'
+pacstrap /mnt base base-devel nano dhcpcd netctl sudo wget
 
-echo '3.3 Настройка системы'
+echo 'System Setup'
 genfstab -pU /mnt >> /mnt/etc/fstab
 
 arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/aka-dekrain/arch2018/master/arch2.sh)"
