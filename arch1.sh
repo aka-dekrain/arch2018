@@ -56,7 +56,7 @@ swapon /dev/sda3
 mount /dev/sda4 /mnt/home
 
 echo 'The choice of mirrors to download.'
-echo "Server = http://mirror.ps.kz/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
+sed -i 1i"Server = http://mirror.ps.kz/archlinux/\$repo/os/\$arch" /etc/pacman.d/mirrorlist
 
 echo 'Installing major packages'
 pacstrap /mnt base base-devel nano dhcpcd netctl sudo wget
