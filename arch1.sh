@@ -39,14 +39,10 @@ echo 'Create partitions'
 ) | fdisk /dev/sda
 
 echo 'Disk formatting'
-mkfs.ext2  /dev/sda1 -L boot
-echo y
-mkfs.ext4  /dev/sda2 -L root
-echo y
-mkswap /dev/sda3 -L swap
-echo y
-mkfs.ext4  /dev/sda4 -L home
-echo y
+(echo y;) | mkfs.ext2  /dev/sda1 -L boot
+(echo y;) | mkfs.ext4  /dev/sda2 -L root
+(echo y;) | mkswap /dev/sda3 -L swap
+(echo y;) | mkfs.ext4  /dev/sda4 -L home
 
 echo 'Mount drives'
 mount /dev/sda2 /mnt
@@ -56,8 +52,7 @@ swapon /dev/sda3
 mount /dev/sda4 /mnt/home
 
 echo 'The choice of mirrors to download.'
-pacman -Sy --noconfirm --noprogressbar --quiet reflector
-pacman -S --noconfirm --needed --noprogressbar --quiet reflector
+pacman -S --noconfirm reflector
 reflector -l 3 --sort rate --save /etc/pacman.d/mirrorlist
 
 echo 'Installing major packages'
