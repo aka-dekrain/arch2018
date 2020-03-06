@@ -10,8 +10,17 @@
 # Данил Антошкин https://vk.com/danil.antoshkin
 # Юрий Порунцов https://vk.com/poruncov
 
-loadkeys ru
-setfont cyr-sun16
+echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+echo "ru_RU.UTF-8 UTF-8" >> /etc/locale.gen 
+
+locale-gen
+
+echo 'LANG="ru_RU.UTF-8"' > /etc/locale.conf
+
+echo 'Вписываем KEYMAP=ru FONT=cyr-sun16'
+echo 'KEYMAP=ru' >> /etc/vconsole.conf
+echo 'FONT=cyr-sun16' >> /etc/vconsole.conf
+
 echo 'Скрипт сделан на основе чеклиста Бойко Алексея по Установке ArchLinux'
 echo 'Ссылка на чек лист есть в группе vk.com/arch4u'
 
