@@ -83,5 +83,7 @@ cd ~/downloads
 
 wget git.io/yay-install.sh && sh yay-install.sh --noconfirm
 
+rm -rf ~/downloads
+
 echo 'Installation completed! Reboot the system.'
 exit
