@@ -39,10 +39,21 @@ echo 'Create partitions'
 ) | fdisk /dev/sda
 
 echo 'Disk formatting'
-(echo y;) | mkfs.ext2  /dev/sda1 -L boot
-(echo y;) | mkfs.ext4  /dev/sda2 -L root
-(echo y;) | mkswap /dev/sda3 -L swap
-(echo y;) | mkfs.ext4  /dev/sda4 -L home
+(
+  echo y;
+) | mkfs.ext2  /dev/sda1 -L boot
+
+(
+  echo y;
+) | mkfs.ext4  /dev/sda2 -L root
+
+(
+  echo y;
+) | mkswap /dev/sda3 -L swap
+
+(
+  echo y;
+) | mkfs.ext4  /dev/sda4 -L home
 
 echo 'Mount drives'
 mount /dev/sda2 /mnt
