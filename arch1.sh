@@ -66,4 +66,4 @@ pacstrap /mnt base base-devel nano dhcpcd netctl sudo wget
 echo 'System Setup'
 genfstab -pU /mnt >> /mnt/etc/fstab
 
-arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/aka-dekrain/arch2018/master/arch2.sh)"
+#arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/aka-dekrain/arch2018/master/arch2.sh)"
