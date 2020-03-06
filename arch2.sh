@@ -31,12 +31,10 @@ echo 'FONT=cyr-sun16' >> /etc/vconsole.conf
 echo 'Uncomment the multilib repository. For 32-bit applications to work on a 64-bit system.'
 echo '[multilib]' >> /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
-pacman -Syy
-
-
+pacman -Syy --noconfirm --noprogressbar --quiet 
 
 echo 'Install the bootloader'
-pacman -S grub --noconfirm 
+pacman -S grub --noconfirm --noprogressbar --quiet  
 grub-install /dev/sda
 
 echo 'Update grub.cfg'
@@ -48,33 +46,31 @@ echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
 echo "Where do we install Arch Linux on a virtual machine?"
 read -p "1 - Yes, 0 - No: " vm_setting
 if [[ $vm_setting == 0 ]]; then
- pacman -S xorg-server xorg-drivers xorg-xinit
+ pacman -S xorg-server xorg-drivers xorg-xinit --noconfirm --noprogressbar --quiet 
 elif [[ $vm_setting == 1 ]]; then
   (
    echo 13;
-  ) | pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils
+  ) | pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils --noconfirm --noprogressbar --quiet 
 fi
 
 echo 'Create a bootable RAM disk'
 mkinitcpio -p linux
 
-echo "Install KDE"
-#pacman -Sy plasma-meta kdebase --noconfirm
-
-echo 'Install SLiM'
-#pacman -S slim --noconfirm
-#systemctl enable slim.service
+echo "Install KDE & SLiM"
+pacman -Sy plasma-meta kdebase slim --noconfirm --noprogressbar --quiet 
+systemctl enable slim.service
 
 echo 'Install font'
-#pacman -S ttf-liberation ttf-dejavu --noconfirm 
+pacman -S ttf-liberation ttf-dejavu --noconfirm --noprogressbar --quiet  
 
 echo 'Install network'
-#pacman -S networkmanager network-manager-applet ppp --noconfirm
+pacman -S networkmanager network-manager-applet ppp --noconfirm --noprogressbar --quiet 
 
 echo 'We connect autoload of the login manager and the Internet'
-#systemctl enable NetworkManager
+systemctl enable NetworkManager
+systemctl enable dhcpcd
 
-echo 'Installation AUR (yay)'
+#echo 'Installation AUR (yay)'
 #sudo pacman -Syu
 
 #mkdir ~/downloads
