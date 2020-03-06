@@ -50,6 +50,7 @@ if [[ $vm_setting == 0 ]]; then
 elif [[ $vm_setting == 1 ]]; then
   (
    echo 13;
+   echo 2;
   ) | pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils --noconfirm --noprogressbar --quiet 
 fi
 
