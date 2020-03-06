@@ -63,7 +63,7 @@ swapon /dev/sda3
 mount /dev/sda4 /mnt/home
 
 echo 'The choice of mirrors to download.'
-pacman -Sy --noconfirm reflector
+pacman -Sy --noconfirm --noprogressbar --quiet reflector
 reflector --verbose --country Kazakhstan --country Russia -p https --sort rate --save /etc/pacman.d/mirrorlist
 
 echo 'Installing major packages'
