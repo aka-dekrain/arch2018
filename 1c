@@ -1,0 +1,37 @@
+pkgname=1c_enterprise83
+pkgver=8.3.16
+pkgrel=1224
+pkgdesc="1C 8.3 for Linux"
+license=('custom')
+arch=($CARCH)
+options=('!strip')
+depends=('webkitgtk2')
+makedepends=('pkgextract')
+url="www.1c.ru"
+source=(1C_Enterprise83-client-$pkgver-$pkgrel.$arch.rpm
+		1C_Enterprise83-client-nls-$pkgver-$pkgrel.$arch.rpm
+		1C_Enterprise83-common-$pkgver-$pkgrel.$arch.rpm
+		1C_Enterprise83-common-nls-$pkgver-$pkgrel.$arch.rpm
+		1C_Enterprise83-server-$pkgver-$pkgrel.$arch.rpm
+		1C_Enterprise83-server-nls-$pkgver-$pkgrel.$arch.rpm
+		1C_Enterprise83-thin-client-$pkgver-$pkgrel.$arch.rpm
+		1C_Enterprise83-thin-client-nls-$pkgver-$pkgrel.$arch.rpm
+		1C_Enterprise83-ws-$pkgver-$pkgrel.$arch.rpm
+		1C_Enterprise83-ws-nls-$pkgver-$pkgrel.$arch.rpm
+)
+md5sums=('9e296bcc74dfccce0448792838b5e6c0'
+         '74d01a7fffecba6df20e5ff164065e89'
+         '783f2fa504ff0401f32469ad4b5c1539'
+         'a43e505df590d6096921ea367bf7a59e'
+         '2465f77b5b3941d37464ea526fa7e529'
+         '2db4f7cd9c01ee61f22e18cb2fd51e58'
+         '23c71fcc735635fa35e1689a363b9fe8'
+         'f40d85c6b1f6bebee5ed15a167f207cb'
+         'a7273cc69543fe52983df4506d72edb1'
+         '6c2cd6cadd20ef42d8f79c902b703fa6')
+package(){
+   cd $pkgdir
+   cp -r $srcdir/usr $pkgdir
+   cp -r $srcdir/etc $pkgdir
+   cp -r $srcdir/opt/8.3.16.1224 $pkgdir
+}
